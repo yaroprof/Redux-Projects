@@ -9,7 +9,8 @@ const store = configureStore({
         product: productReducer,
         category: categoryReducer,
         modal: modalReducer,
-        cart: cartReducer
+        cart: cartReducer,
+        
     }
 });
 

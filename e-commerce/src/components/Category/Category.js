@@ -11,9 +11,12 @@ export default function Category() {
             <h3 className='text-uppercase fw-7 text-regal-blue ls-1'>Category</h3>
           </div>
           <div className="categor-items grid">
-            <div className="category-item-img">
-              image
-            </div>
+            
+
+
+
+
+            
             <div className="category-item-name text-center">
               <h6 className="fs-20">name</h6>
             </div>

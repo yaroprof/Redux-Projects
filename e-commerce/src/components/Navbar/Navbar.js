@@ -1,9 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchCategories } from '../../store/categorySlice';
+import { getCartTotal } from '../../store/cartSlice';
 
 import './Navbar.scss';
 
 export default function Navbar() {
+  const dispatch = useDispatch();
+
+  const { data: categories } = useSelector((state) => state.category);
+  const { totalItems } = useSelector((state) => state.cart);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+    dispatch(getCartTotal());
+  }, [dispatch]);
+
   return (
     <nav className="navbar">
       <div className="navbar-content">
@@ -29,25 +45,44 @@ export default function Navbar() {
                 </span>
                 <div className="btn-txt fw-5">
                   cart
-                  <span className="cart-count-value">Total:</span>
+                  <span className="cart-count-value">{totalItems}</span>
                 </div>
               </Link>
             </div>
           </div>
         </div>
-{/* Bottom Navbar */}
+
+        {/* Bottom Navbar */}
         <div className="navbar-bottom bg-regal-blue">
           <div className="container flex flex-between">
-            <ul>
-              <button type='button' className="navbar-hide-btn text-white">
+            <ul className={`nav-links flex ${isSidebarOpen ? 'show-nav-links' : ''}`}>
+
+              <button
+                type="button"
+                className="navbar-hide-btn text-white"
+                onClick={() => setIsSidebarOpen(false)}>
                 <i className="fas fa-times"></i>
               </button>
-              <li className='nav-link text-white'>category name</li>
+
+              {categories.map((category) => (
+                <li key={category.id}>
+                  <Link
+                    to={`/category/${category.id}`}
+                    className="nav-link text-white"
+                    onClick={() => setIsSidebarOpen(false)}>
+                    {category.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
 
-            <button ype='button' className="navbar-show-btn text-gold">
+            <button
+              type="button"
+              className="navbar-show-btn text-gold"
+              onClick={() => setIsSidebarOpen(true)}>
               <i className="fas fa-bars"></i>
             </button>
+
           </div>
         </div>
       </div>
